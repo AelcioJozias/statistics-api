@@ -18,4 +18,9 @@ public class TransactionServiceImpl implements TransactionService {
         var transaction = new Transaction(transactionRequest.value(), transactionRequest.dateTime());
         return transactionRepository.save(transaction);
     }
+
+    @Override
+    public void deleteAll() {
+        transactionRepository.deleteAll();
+    }
 }

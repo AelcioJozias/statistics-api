@@ -5,4 +5,6 @@ import com.br.statisticsapi.dtos.input.TransactionRequest;
 
 public interface TransactionService {
     Transaction createTransaction(TransactionRequest transactionRequest);
+
+    void deleteAll();
 }
