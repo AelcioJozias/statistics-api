@@ -2,6 +2,7 @@ package com.br.statisticsapi.domains;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.util.Objects;
 
 import static java.math.RoundingMode.HALF_UP;
 import static java.util.Objects.isNull;
@@ -10,12 +11,11 @@ public class Transaction {
 
     public static final int DECIMAL_SCALE = 2;
 
-    private final Long id;
+    private Long id;
     private final BigDecimal value;
     private final OffsetDateTime dateTime;
 
     public Transaction(BigDecimal value, OffsetDateTime dateTime) {
-        this.id = 1L;
         this.value = validValue(value);
         this.dateTime = validDateTime(dateTime);
     }
@@ -60,7 +60,11 @@ public class Transaction {
         return valor.setScale(DECIMAL_SCALE, HALF_UP);
     }
 
-    // Getters methods
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public Long getId() {
         return id;
     }
@@ -73,4 +77,15 @@ public class Transaction {
         return dateTime;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Transaction that = (Transaction) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
 }
