@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/estatistica")
+@RequestMapping("/estatisticas")
 public class StatisticsController {
 
     private final TransactionsStatisticsService transactionsStatisticsService;
@@ -23,4 +23,6 @@ public class StatisticsController {
         var statistics = transactionsStatisticsService.getStatisticsInTheLastOneMinute();
         return ResponseEntity.ok(statistics);
     }
+
+
 }
