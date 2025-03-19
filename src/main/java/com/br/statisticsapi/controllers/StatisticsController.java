@@ -24,5 +24,10 @@ public class StatisticsController {
         return ResponseEntity.ok(statistics);
     }
 
+    @GetMapping(path = "/todas")
+    public ResponseEntity<TransactionStatisticsResponse> getAll() {
+        var statistics = transactionsStatisticsService.getAllTransactionsStatistics();
+        return ResponseEntity.ok(statistics);
+    }
 
 }

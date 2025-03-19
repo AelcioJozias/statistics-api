@@ -5,7 +5,9 @@ import org.springframework.stereotype.Repository;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -60,6 +62,15 @@ public class TransactionRepositoryImpl implements TransactionRepository{
         transactions.removeAll(expiredTransactions);
 
         return lastMinuteTransactions;
+    }
+
+    @Override
+    public List<Transaction> getAll() {
+        Set<Transaction> lastOneMinuteTransactions = Set.copyOf(transactions);
+        Set<Transaction> oldTransactions = Set.copyOf(TransactionRepositoryImpl.oldTransactions);
+        List<Transaction> allTransactions = new ArrayList<>(lastOneMinuteTransactions);
+        allTransactions.addAll(oldTransactions);
+        return allTransactions;
     }
 
     @Override

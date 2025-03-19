@@ -4,4 +4,5 @@ import com.br.statisticsapi.dtos.output.TransactionStatisticsResponse;
 
 public interface TransactionsStatisticsService {
     TransactionStatisticsResponse getStatisticsInTheLastOneMinute();
+    TransactionStatisticsResponse getAllTransactionsStatistics();
 }

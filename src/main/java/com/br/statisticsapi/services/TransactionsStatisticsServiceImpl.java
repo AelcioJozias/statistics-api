@@ -24,18 +24,39 @@ public class TransactionsStatisticsServiceImpl implements TransactionsStatistics
     }
 
     /**
+     * Generates a TransactionStatisticsResponse from a list of transactions.
+     *
+     * @param transactionsList the list of transactions
+     * @return a TransactionStatisticsResponse containing the calculated statistics
+     */
+    @SuppressWarnings("unchecked")
+    private TransactionStatisticsResponse getTransactionStatisticsResponse(List<Transaction> transactionsList) {
+        List<Map<String, Object>> statiticsList = calculateTransactionStatisticService.stream()
+                .map(e -> (Map<String, Object>) e.getStatistic(transactionsList))
+                .toList();
+        Map<String, Object> statisticsMap = TransactionStatisticsMapper.joinMapsFromTransactionStatistics(statiticsList);
+        return TransactionStatisticsMapper.mapToTransactionStatisticsResponse(statisticsMap);
+    }
+
+    /**
      * Retrieves the transaction statistics for the last one minute.
      *
      * @return a TransactionStatisticsResponse containing the statistics
      */
     @Override
-    @SuppressWarnings("unchecked")
     public TransactionStatisticsResponse getStatisticsInTheLastOneMinute() {
         List<Transaction> transactionsInTheLastOneMinute = transactionRepository.getTransactionsInTheLastOneMinute();
-        List<Map<String, Object>> statiticsList = calculateTransactionStatisticService.stream()
-                .map(e -> (Map<String, Object>) e.getStatistic(transactionsInTheLastOneMinute))
-                .toList();
-        Map<String, Object> statisticsMap = TransactionStatisticsMapper.joinMapsFromTransactionStatistics(statiticsList);
-        return TransactionStatisticsMapper.mapToTransactionStatisticsResponse(statisticsMap);
+        return getTransactionStatisticsResponse(transactionsInTheLastOneMinute);
+    }
+
+    /**
+     * Retrieves all the transactions already registered.
+     *
+     * @return a TransactionStatisticsResponse containing the statistics
+     */
+    @Override
+    public TransactionStatisticsResponse getAllTransactionsStatistics() {
+        List<Transaction> transactionsInTheLastOneMinute = transactionRepository.getAll();
+        return getTransactionStatisticsResponse(transactionsInTheLastOneMinute);
     }
 }
